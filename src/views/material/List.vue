@@ -40,7 +40,7 @@
           v-loading="loading"
           header-row-class-name="main-table"
         >
-          <el-table-column prop="name" :label="$t('material.name')" width="200">
+          <el-table-column prop="name" :label="$t('material.name')">
           </el-table-column>
           <el-table-column
             prop="createTime"
@@ -85,7 +85,6 @@
             :label="$t('material.opt')"
             width="120"
             align="center"
-            fixed="right"
           >
             <template slot-scope="scope">
               <div
@@ -113,6 +112,31 @@
         </div>
       </div>
     </div>
+    <!--  edit dialog -->
+    <el-dialog
+      :title="$t('material.modalEdit')"
+      :center="true"
+      :visible.sync="editModal"
+    >
+      <el-form
+        :model="editForm"
+        label-width="120px"
+        label-position="left"
+        class="ruleForm"
+      >
+        <el-form-item :label="$t('material.name')">
+          <el-input v-model="editForm.name" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editModal = false">{{
+          $t('common.cancel')
+        }}</el-button>
+        <el-button type="primary" @click="handleSave">{{
+          $t('common.save')
+        }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -133,8 +157,12 @@ export default {
         page: 1,
         pageSize: 10
       },
+      editForm: {
+        name: '',
+        category: ''
+      },
       selectId: -1,
-      modal: false,
+      editModal: false,
       uploadModal: false,
       totalCount: 0,
       pageSizes: PAGE_SIZES
@@ -146,7 +174,40 @@ export default {
   },
   methods: {
     initData() {
-      this.loading = false
+      this.loading = true
+      new Promise(resolve => {
+        let result = [
+          {
+            name: 'test',
+            createTime: '2020-10-28 10:57:39',
+            optTime: '2020-10-28 10:57:39',
+            categoryFirst: '一级',
+            categorySec: '耳机',
+            categoryThird: '/'
+          }
+        ]
+        resolve(result)
+      })
+        .then(result => {
+          this.allDatas = result.concat()
+          if (this.formInline.name) {
+            this.doSearch(this.formInline.name)
+          } else {
+            let start = 0
+            let end = this.formInline.pageSize * this.formInline.page
+            if (this.allDatas.length > this.formInline.pageSize) {
+              start = (this.formInline.page - 1) * this.formInline.pageSize
+            }
+            this.currentDatas = this.allDatas.slice(start, end)
+            this.totalCount = this.allDatas.length
+            if (this.subtotel) {
+              this.currentDatas = [this.subtotel, ...this.currentDatas]
+            }
+          }
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     makeDebounce() {
       this.debounceSearch = Util.debounce(this.doSearch, 250)
@@ -199,7 +260,11 @@ export default {
     },
     handleEdit(index, row) {
       this.selectId = row.id
-      this.modal = true
+      this.editForm = {
+        name: '',
+        category: ''
+      }
+      this.editModal = true
     },
     handleUpload() {
       this.isUpload = true
@@ -246,5 +311,8 @@ export default {
   font-size: 18px;
   color: #5d9cec;
   word-break: break-word;
+}
+.ruleForm {
+  width: 80%;
 }
 </style>

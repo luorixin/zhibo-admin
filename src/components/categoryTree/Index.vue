@@ -20,116 +20,63 @@
         >{{ $t('common.edit') }}</el-button
       >
     </div>
-    <div class="categorytree-inner">
-      <div class="categorytree-parent">
+    <div class="categorytree-inner" v-if="datas.length > 0">
+      <div
+        class="categorytree-parent"
+        v-for="data in datas"
+        :key="'tree-parent_' + data.id"
+      >
         <div class="categorytree-first">
           <div class="categorytree-first__con">
             <editor-label
               :id="1"
-              v-model="test"
+              v-model="data.name"
               :show-input="isEdit"
               :show-del="isEdit"
-              >{{ test }}</editor-label
+              >{{ data.name }}</editor-label
             >
           </div>
         </div>
-        <div class="categorytree-child">
-          <div class="categorytree-child__con">
+        <div
+          class="categorytree-child"
+          v-show="data.children && data.children.length > 0"
+        >
+          <div
+            class="categorytree-child__con"
+            v-for="child in data.children"
+            :key="'tree-parent_child_' + child.id"
+          >
             <div class="categorytree-child__con-left">
               <editor-label
                 :id="1"
-                v-model="test"
+                v-model="child.name"
                 :show-input="isEdit"
                 :show-del="isEdit"
-                >背景墙</editor-label
               >
+                {{ child.name }}
+              </editor-label>
             </div>
-            <div class="categorytree-child__con-right">
-              <editor-label
-                :id="1"
-                v-model="test"
-                :show-input="isEdit"
-                :show-del="isEdit"
-                >全套</editor-label
-              >
-              <editor-label
-                :id="1"
-                v-model="test"
-                :show-input="isEdit"
-                :show-del="isEdit"
-                >顶部</editor-label
-              >
-            </div>
-          </div>
-          <div class="categorytree-child__con">
-            <div class="categorytree-child__con-left">
-              <editor-label
-                :id="1"
-                v-model="test"
-                :show-input="isEdit"
-                :show-del="isEdit"
-                >信息卡</editor-label
-              >
-            </div>
-            <div class="categorytree-child__con-right">
-              <editor-label
-                :id="1"
-                v-model="test"
-                :show-input="isEdit"
-                :show-del="isEdit"
-                >全套</editor-label
-              >
-              <editor-label
-                :id="1"
-                v-model="test"
-                :show-input="isEdit"
-                :show-del="isEdit"
-                >顶部</editor-label
-              >
+            <div
+              class="categorytree-child__con-right"
+              v-show="child.children && child.children.length > 0"
+            >
+              <template v-for="childRight in child.children">
+                <editor-label
+                  :id="1"
+                  v-model="childRight.name"
+                  :show-input="isEdit"
+                  :show-del="isEdit"
+                  :key="'tree-parent_child_right_' + childRight.id"
+                  >{{ childRight.name }}</editor-label
+                >
+              </template>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="categorytree-parent">
-        <div class="categorytree-first">
-          <div class="categorytree-first__con">
-            <editor-label
-              :id="1"
-              v-model="test"
-              :show-input="isEdit"
-              :show-del="isEdit"
-              >一键装修</editor-label
-            >
-          </div>
-        </div>
-        <div class="categorytree-child">
-          <div class="categorytree-child__con">
-            <div class="categorytree-child__con-left">
-              <editor-label
-                :id="1"
-                v-model="test"
-                :show-input="isEdit"
-                :show-del="isEdit"
-                >背景墙</editor-label
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="categorytree-parent">
-        <div class="categorytree-first">
-          <div class="categorytree-first__con">
-            <editor-label
-              :id="1"
-              v-model="test"
-              :show-input="isEdit"
-              :show-del="isEdit"
-              >一键装修</editor-label
-            >
-          </div>
-        </div>
-      </div>
+    </div>
+    <div v-else>
+      <label>{{ $t('common.noResult') }}</label>
     </div>
   </div>
 </template>
@@ -145,15 +92,78 @@ export default {
     return {
       loading: false,
       isEdit: false,
+      datas: [],
       test: '测试'
     }
   },
+  created() {
+    this.initData()
+  },
   methods: {
+    initData() {
+      this.loading = true
+      new Promise(resolve => {
+        let res = [
+          {
+            id: 1,
+            name: '测试',
+            children: [
+              {
+                id: 2,
+                pid: 1,
+                name: '一级测试',
+                children: [
+                  {
+                    id: 3,
+                    pid: 2,
+                    name: '二级测试'
+                  },
+                  {
+                    id: 4,
+                    pid: 2,
+                    name: '二级测试2'
+                  }
+                ]
+              },
+              {
+                id: 5,
+                pid: 1,
+                name: '一级测试2',
+                children: [
+                  {
+                    id: 6,
+                    pid: 2,
+                    name: '二级测试3'
+                  },
+                  {
+                    id: 7,
+                    pid: 2,
+                    name: '二级测试4'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            id: 8,
+            name: '测试2'
+          }
+        ]
+        resolve(res)
+      })
+        .then(result => {
+          this.datas = result
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
     handleEdit() {
       this.isEdit = !this.isEdit
     },
     handleCancel() {
       this.isEdit = !this.isEdit
+      console.log(this.datas)
     },
     handleSave() {
       this.isEdit = !this.isEdit

@@ -180,6 +180,12 @@ hr {
   background: #dfdfdf;
 }
 
+.el-dialog {
+  .el-icon-close {
+    font-size: 24px;
+  }
+}
+
 /**************************** ************** slide content ************************************/
 
 $slideWidth: 900px;
