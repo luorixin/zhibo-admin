@@ -1,6 +1,6 @@
 export default {
   test: '测试',
-  logo: 'zhibo-admin',
+  logo: '直播++素材管理平台',
   language: '简体中文',
   common: {
     noResult: '没有结果',
@@ -79,5 +79,53 @@ export default {
     username: '请输入账号',
     password: '请输入密码',
     submit: '登录'
+  },
+  header: {
+    signout: '退出'
+  },
+  footer: {
+    power: '由爱点击提供技术支持。版权所有。',
+    icp: 'ICP 14026918 iClick',
+    browsers:
+      '(建议采用浏览器: Internet Explorer 9.0+, Chrome 8.0+, Firefox 3.5+, Safari 1.0+)',
+    policy: '隐私声明'
+  },
+  menu: {
+    category: '分类管理',
+    material: '素材上传'
+  },
+  category: {
+    title: '分类管理',
+    tip: '保存后将实时同步到线上环境，请确定修改项无误，谨慎操作',
+    add: '新增'
+  },
+  material: {
+    title: '素材上传',
+    tableTitle: '上传列表',
+    name: '素材名称',
+    createTime: '上传时间',
+    optTime: '最后操作时间',
+    categoryFirst: '一级分类',
+    categorySec: '二级分类',
+    categoryThird: '三级分类',
+    preview: '预览',
+    opt: '操作',
+    edit: '编辑',
+    upload: '上传',
+    category: '素材分类',
+    tip: '注：请上传zip文件，批量上传后双击可重命名',
+    uploaded: '已上传',
+    modalEdit: '素材编辑',
+    modalPreview: '素材预览'
+  },
+  errorPage: {
+    ops: '出错了!',
+    notexist: '对不起，您访问的页面不存在',
+    tip1: '你可以选择回到 ',
+    tip2: '上一页',
+    tip3: ' 或者回到 ',
+    tip4: '首页',
+    tip5: '想获取额外的帮助，请联系我们 ',
+    tip6: '首页'
   }
 }

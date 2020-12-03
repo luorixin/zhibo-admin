@@ -55,11 +55,11 @@ export const appRouter = [
   {
     path: '/category',
     component: Home,
-    icon: 'fa fa-edit',
+    // icon: 'fa fa-edit',
     meta: { title: 'menu.category' },
     children: [
       {
-        path: 'category',
+        path: 'list',
         name: 'categoryList',
         component: () => import('@/views/category/List.vue'),
         meta: { title: 'menu.category' }
@@ -69,11 +69,11 @@ export const appRouter = [
   {
     path: '/material',
     component: Home,
-    icon: 'fa el-icon-bangzhu',
+    // icon: 'fa el-icon-bangzhu',
     meta: { title: 'menu.material' },
     children: [
       {
-        path: 'material',
+        path: 'list',
         name: 'material',
         component: () => import('@/views/material/List.vue'),
         meta: { title: 'menu.material' }

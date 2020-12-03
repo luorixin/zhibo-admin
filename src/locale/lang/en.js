@@ -1,6 +1,6 @@
 export default {
   test: 'test',
-  logo: 'zhibo-admin',
+  logo: '直播++素材管理平台',
   language: 'English',
   common: {
     noResult: 'No Result',
@@ -81,5 +81,54 @@ export default {
     username: 'Enter your user name',
     password: 'Enter your password',
     submit: 'Login'
+  },
+  header: {
+    signout: 'Sign Out'
+  },
+  footer: {
+    power: 'Powered by iClick. All Rights Reserved. ',
+    icp: 'ICP 14026918 iClick',
+    browsers:
+      '(Suggested browsers: Internet Explorer 9.0+, Chrome 8.0+, Firefox 3.5+, Safari 1.0+)',
+    policy: 'Privacy Policy'
+  },
+  menu: {
+    category: 'Category',
+    material: 'Material'
+  },
+  category: {
+    title: '分类管理',
+    tip: '保存后将实时同步到线上环境，请确定修改项无误，谨慎操作',
+    add: '新增'
+  },
+  material: {
+    title: '素材上传',
+    tableTitle: '上传列表',
+    name: '素材名称',
+    createTime: '上传时间',
+    optTime: '最后操作时间',
+    categoryFirst: '一级分类',
+    categorySec: '二级分类',
+    categoryThird: '三级分类',
+    preview: '预览',
+    opt: '操作',
+    edit: '编辑',
+    upload: '上传',
+    category: '素材分类',
+    tip: '注：请上传zip文件，批量上传后双击可重命名',
+    uploaded: '已上传',
+    modalEdit: '素材编辑',
+    modalPreview: '素材预览'
+  },
+  errorPage: {
+    ops: 'Oops!',
+    notexist: 'Sorry, the page you requested does not exist.',
+    tip1: 'You may return to the ',
+    tip2: 'previous page',
+    tip3: ' or go to the ',
+    tip4: 'home page',
+    tip5:
+      'To report this issue or for additional support, please contact us at ',
+    tip6: 'Home'
   }
 }

@@ -49,7 +49,7 @@
             <i
               class="fa fa-cog fa-globe"
               aria-hidden="true"
-              style="visibility:hidden;"
+              style="visibility: hidden"
             ></i>
             <span class="x-m8">简体中文</span>
           </a>
@@ -62,7 +62,7 @@
             <i
               class="fa fa-cog fa-globe"
               aria-hidden="true"
-              style="visibility:hidden;"
+              style="visibility: hidden"
             ></i>
             <span class="x-m8">English</span>
           </a>
@@ -73,6 +73,7 @@
       class="x-menu-lang"
       :class="{ smallScreen: smallScreen }"
       v-clickoutside="handleClose"
+      v-show="false"
     >
       <li @click="handleShowLang">
         <a href="javascript:;">
@@ -96,7 +97,7 @@ export default {
     return {
       smallScreen: false,
       showLang: false,
-      minShow: 0, // child少于多少个隐藏子节点而直接显示父类
+      minShow: 1, // child少于多少个隐藏子节点而直接显示父类
       menuList: []
     }
   },
@@ -213,12 +214,11 @@ export default {
   float: left;
   width: 185px;
   position: fixed;
-  background: #f2f2f2;
+  background: #000;
   height: 100%;
   min-height: 600px;
   z-index: 2000;
   margin-left: -5px;
-  font-size: 12px;
   &.smallScreen {
     position: fixed !important;
     top: 0;
@@ -230,21 +230,21 @@ export default {
       overflow: hidden;
       border-left: 5px solid #efefef;
       & > a {
-        background: #f2f2f2;
+        background: #000;
       }
       &.selected > a {
-        background: #e8e8e8;
-        border-left: 5px solid #ef4136;
+        background: #e3c581;
+        border-left: 5px solid transparent;
         padding-left: 10px;
         .fa {
-          color: #ef4136;
+          color: #333;
         }
         .fa-caret-down,
         .fa-caret-right {
           color: #333 !important;
         }
         span {
-          color: #666;
+          color: #333;
           font-weight: bold;
         }
       }
@@ -263,7 +263,7 @@ export default {
           font-size: 16px;
           top: 1px;
           position: relative;
-          color: #999;
+          color: #fff;
           float: left;
         }
         .fa-caret-down,
@@ -274,14 +274,15 @@ export default {
         }
       }
       a:hover {
-        background-color: #d9d9d9 !important;
+        background-color: #d1b87c !important;
       }
       span {
-        color: #999;
+        color: #fff;
         cursor: pointer;
         display: block;
         margin: 0 5px 5px 25px;
         line-height: 20px;
+        font-size: 14px;
       }
     }
     .sub-menu {

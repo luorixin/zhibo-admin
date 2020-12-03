@@ -54,17 +54,21 @@ export default {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      authApi
-        .login({ username: username.trim(), password: password })
-        .then(response => {
-          commit('setToken', response.token)
-          commit('setUserDetail', username.trim())
-          Util.setToken(response.token)
-          resolve()
-        })
-        .catch(error => {
-          reject(error)
-        })
+      // authApi
+      //   .login({ username: username.trim(), password: password })
+      //   .then(response => {
+      //     commit('setToken', response.token)
+      //     commit('setUserDetail', username.trim())
+      //     Util.setToken(response.token)
+      //     resolve()
+      //   })
+      //   .catch(error => {
+      //     reject(error)
+      //   })
+      commit('setToken', '123123')
+      commit('setUserDetail', username.trim())
+      Util.setToken('123123')
+      resolve()
     })
   },
   logout({ commit, state }) {

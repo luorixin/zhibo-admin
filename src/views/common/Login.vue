@@ -11,13 +11,13 @@
           :model="ruleForm"
           :rules="rules"
           ref="ruleForm"
+          size="medium"
           label-width="0px"
         >
           <el-form-item prop="username">
             <el-input
               v-model="ruleForm.username"
               :placeholder="$t('login.username')"
-              size="medium"
               ref="username"
               class="ms-input"
             >
@@ -27,7 +27,6 @@
             <el-input
               type="password"
               :placeholder="$t('login.password')"
-              size="medium"
               ref="password"
               v-model="ruleForm.password"
               @keyup.enter.native="submitForm('ruleForm')"
@@ -40,7 +39,6 @@
               :disabled="isDisabled"
               class="sub-btn"
               type="primary"
-              size="medium"
               @click.native.prevent="submitForm"
               >{{ $t('login.submit') }}</el-button
             >

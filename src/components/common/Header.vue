@@ -7,30 +7,21 @@
             <img src="../../assets/img/iclick.png" alt="logo" />
           </router-link>
         </div>
-        <div class="header-search" v-if="!isExport">
-          <header-search></header-search>
-        </div>
-        <div class="header-menu" v-if="!isExport">
-          <ul class="menu-list">
-            <li class="active">
-              <router-link to="/">{{ $t('logo') }}</router-link>
-            </li>
-          </ul>
-        </div>
-        <div class="header-title" v-if="isExport">{{ exportTitle }}</div>
+        <div class="header-title">{{ $t('logo') }}</div>
         <div class="header-info">
           <div class="header-info_date" v-if="isExport">{{ exportDate }}</div>
-          <div
-            v-if="!isExport"
-            class="header-info__con"
-            @click="showInfoCon"
-            v-clickoutside="handleClose"
-          >
+          <div v-if="!isExport" class="header-info__con">
             <span class="info-con__title">
               <i class="fa fa-user"></i>
               {{ userDetail }}
             </span>
-            <i class="fa fa-caret-down"></i>
+            <el-button
+              type="primary"
+              style="margin-left: 10px"
+              @click="loginOff"
+              >{{ $t('header.signout') }}</el-button
+            >
+            <!-- <i class="fa fa-caret-down"></i>
             <transition name="el-fade-in-linear">
               <ul class="info-con__list" v-show="infoShow">
                 <span class="nav-arrow"></span>
@@ -41,7 +32,7 @@
                   </a>
                 </li>
               </ul>
-            </transition>
+            </transition> -->
           </div>
         </div>
       </div>
@@ -50,15 +41,11 @@
 </template>
 
 <script>
-import HeaderSearch from '@/components/common/HeaderSearch.vue'
 import Clickoutside from '@/utils/clickoutside'
 import { mapState, mapActions } from 'vuex'
 import Util from '@/utils'
 export default {
   name: 'MyHeader',
-  components: {
-    HeaderSearch
-  },
   directives: {
     Clickoutside
   },
@@ -111,7 +98,8 @@ export default {
   z-index: 1200;
   .header {
     height: 60px;
-    background-color: #fff;
+    background-color: #000;
+    color: #fff;
     top: 0;
     left: 0;
     width: 100%;
@@ -134,7 +122,7 @@ export default {
           width: 100%;
           height: 44px;
           padding: 0;
-          border-right: 1px solid #dfdfdf;
+          // border-right: 1px solid #dfdfdf;
           text-align: center;
           vertical-align: middle;
           img {
@@ -176,6 +164,8 @@ export default {
           width: 150px;
           float: right;
           font-size: 12px;
+          display: flex;
+          align-items: center;
           .info-con__title {
             overflow: hidden;
             text-overflow: ellipsis;
