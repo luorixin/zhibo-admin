@@ -18,6 +18,7 @@
       ref="input"
       @focus="onFieldClick"
       @keyup.enter.native="onInputExit"
+      @keyup.esc.native="onInputCancel"
       v-on="listeners"
       v-bind="$attrs"
       v-model="model"
@@ -30,7 +31,7 @@
 <script>
 export default {
   name: 'EditorLabel',
-  inheritAttrs: false,
+  // inheritAttrs: false,
   props: {
     id: {
       type: [Number, String],
@@ -79,6 +80,7 @@ export default {
     return {
       editMode: false,
       delMode: this.showDel,
+      prev: this.value,
       inputMode: this.showInput,
       resultId: this.id,
       current: this.value
@@ -96,7 +98,7 @@ export default {
     },
     listeners() {
       return {
-        [this.closeEvent]: this.onInputExit,
+        [this.closeEvent]: this.onInputCancel,
         ...this.$listeners
       }
     }
@@ -115,7 +117,18 @@ export default {
     },
     onInputExit() {
       this.editMode = false
-      this.$emit('exit', { prev: this.value, current: this.current })
+      this.$emit('save', {
+        prev: this.value,
+        current: this.current,
+        id: this.resultId
+      })
+    },
+    onInputCancel() {
+      if (this.editMode) {
+        this.editMode = false
+        this.current = this.prev
+        this.$emit('input', this.current)
+      }
     },
     onInputChange(val) {
       this.$emit('input', val)
@@ -153,6 +166,11 @@ export default {
     z-index: 201;
     color: $--color-primary;
   }
+}
+.addLabel {
+  border-style: dotted;
+  color: $--color-primary;
+  cursor: pointer;
 }
 .shakeAni {
   animation-name: shaky-slow;

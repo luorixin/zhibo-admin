@@ -137,15 +137,30 @@
         }}</el-button>
       </div>
     </el-dialog>
+
+    <!-- upload dialog -->
+    <el-dialog
+      :title="$t('material.title')"
+      :visible.sync="uploadModal"
+      width="900px"
+      :center="true"
+    >
+      <upload-modal @getResult="doUpload" :visible="uploadModal">
+      </upload-modal>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Util from '@/utils'
 import moment from 'moment'
+import UploadModal from './UploadModal.vue'
 import { convertType, PAGE_SIZES } from '@/utils/constant.js'
 export default {
   name: 'MaterialList',
+  components: {
+    UploadModal
+  },
   data() {
     return {
       loading: false,
@@ -258,6 +273,9 @@ export default {
       this.formInline.pageSize = val
       this.debounceSearch(this.formInline.name)
     },
+    handleSave() {
+      this.editModal = false
+    },
     handleEdit(index, row) {
       this.selectId = row.id
       this.editForm = {
@@ -266,8 +284,13 @@ export default {
       }
       this.editModal = true
     },
+    doUpload(res) {
+      this.isUpload = false
+      this.uploadModal = false
+    },
     handleUpload() {
       this.isUpload = true
+      this.uploadModal = true
     }
   }
 }
