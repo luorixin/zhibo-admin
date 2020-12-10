@@ -74,7 +74,7 @@
                 >
               </template>
               <!-- 三级展示 -->
-              <editor-label
+              <!-- <editor-label
                 v-show="isEdit"
                 :id="data.id + '$$$' + child.id"
                 v-model="categoryAdd"
@@ -84,7 +84,19 @@
                 @save="addLabelThird"
               >
                 {{ $t('category.addTitle') }}
-              </editor-label>
+              </editor-label> -->
+              <div
+                class="categorytree-add"
+                v-show="isEdit"
+                @click="
+                  addLabelThird({
+                    current: $t('category.changeName'),
+                    id: data.id + '$$$' + child.id
+                  })
+                "
+              >
+                {{ $t('category.addTitle') }}
+              </div>
             </div>
             <!-- 如果没有，三级展示 -->
             <div
@@ -93,7 +105,7 @@
                 (!child.children || child.children.length === 0) && isEdit
               "
             >
-              <editor-label
+              <!-- <editor-label
                 :id="data.id + '$$$' + child.id"
                 v-model="categoryAdd"
                 :show-input="isEdit"
@@ -102,13 +114,24 @@
                 @save="addLabelThird"
               >
                 {{ $t('category.addTitle') }}
-              </editor-label>
+              </editor-label> -->
+              <div
+                class="categorytree-add"
+                @click="
+                  addLabelThird({
+                    current: $t('category.changeName'),
+                    id: data.id + '$$$' + child.id
+                  })
+                "
+              >
+                {{ $t('category.addTitle') }}
+              </div>
             </div>
           </div>
           <!-- 二级展示 -->
           <div class="categorytree-child__con" v-show="isEdit">
             <div class="categorytree-child__con-left">
-              <editor-label
+              <!-- <editor-label
                 :id="data.id"
                 v-model="categoryAdd"
                 :show-input="isEdit"
@@ -117,7 +140,18 @@
                 @save="addLabelSecond"
               >
                 {{ $t('category.addTitle') }}
-              </editor-label>
+              </editor-label> -->
+              <div
+                class="categorytree-add"
+                @click="
+                  addLabelSecond({
+                    current: $t('category.changeName'),
+                    id: data.id
+                  })
+                "
+              >
+                {{ $t('category.addTitle') }}
+              </div>
             </div>
           </div>
         </div>
@@ -128,7 +162,7 @@
         >
           <div class="categorytree-child__con">
             <div class="categorytree-child__con-left">
-              <editor-label
+              <!-- <editor-label
                 :id="data.id"
                 v-model="categoryAdd"
                 :show-input="isEdit"
@@ -137,7 +171,18 @@
                 @save="addLabelSecond"
               >
                 {{ $t('category.addTitle') }}
-              </editor-label>
+              </editor-label> -->
+              <div
+                class="categorytree-add"
+                @click="
+                  addLabelSecond({
+                    current: $t('category.changeName'),
+                    id: data.id
+                  })
+                "
+              >
+                {{ $t('category.addTitle') }}
+              </div>
             </div>
           </div>
         </div>
@@ -146,7 +191,7 @@
       <div class="categorytree-parent" v-show="isEdit" v-if="false">
         <div class="categorytree-first">
           <div class="categorytree-first__con">
-            <editor-label
+            <!-- <editor-label
               id="-1"
               v-model="categoryAdd"
               :show-input="isEdit"
@@ -155,7 +200,15 @@
               @save="addLabelFirst"
             >
               {{ $t('category.addTitle') }}
-            </editor-label>
+            </editor-label> -->
+            <div
+              class="categorytree-add"
+              @click="
+                addLabelFirst({ current: $t('category.changeName'), id: -1 })
+              "
+            >
+              {{ $t('category.addTitle') }}
+            </div>
           </div>
         </div>
       </div>
@@ -336,6 +389,7 @@ export default {
         })
         this.initIndex -= 1
         this.categoryAdd = ''
+        this.$forceUpdate()
       }
     },
     addLabelSecond(res) {
@@ -345,7 +399,8 @@ export default {
         })
         if (changeData) {
           if (!changeData.children) {
-            changeData.children = []
+            // changeData.children = []
+            this.$set(changeData, 'children', [])
           }
           changeData.children.push({
             id: this.initIndex - 1,
@@ -353,6 +408,7 @@ export default {
           })
           this.initIndex -= 1
           this.categoryAdd = ''
+          this.$forceUpdate()
         }
       }
     },
@@ -367,7 +423,8 @@ export default {
             return item.id == idArr[1]
           })
           if (!changeData.children) {
-            changeData.children = []
+            // changeData.children = []
+            this.$set(changeData, 'children', [])
           }
           changeData.children.push({
             id: this.initIndex - 1,
@@ -375,6 +432,7 @@ export default {
           })
           this.initIndex -= 1
           this.categoryAdd = ''
+          this.$forceUpdate()
         }
       }
     },
@@ -416,6 +474,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/element-variables.scss';
 @mixin categorytree_flex_center {
   display: flex;
   justify-content: center;
@@ -476,5 +535,22 @@ export default {
       }
     }
   }
+  .categorytree-add {
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px dotted #dfdfdf;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    color: $--color-primary;
+    cursor: pointer;
+    &:hover {
+      background: #efefef;
+    }
+  }
+}
+.editorLabel ~ .categorytree-add {
+  margin-left: 20px;
 }
 </style>

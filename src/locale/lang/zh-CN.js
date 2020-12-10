@@ -102,7 +102,8 @@ export default {
     add: '新增',
     addTitle: '添加分类',
     name: '分类名称',
-    noTip: '您还没有创建分类哦，请点击'
+    noTip: '您还没有创建分类哦，请点击',
+    changeName: '双击重命名'
   },
   material: {
     title: '素材上传',

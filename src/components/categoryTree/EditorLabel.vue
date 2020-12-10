@@ -151,7 +151,8 @@ export default {
   text-align: center;
   position: relative;
   cursor: default;
-  & ~ & {
+  & ~ &,
+  & ~ .categorytree-add {
     margin-left: 20px;
   }
   &:hover {
