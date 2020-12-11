@@ -1,6 +1,6 @@
 import $http from './index'
 
-const baseUrl = ''
+const baseUrl = 'user'
 
 /**
  * 登录
@@ -26,23 +26,21 @@ export const logout = () =>
   })
 
 /**
- * 获取客户
+ * 新增
  */
-export const getRight = () =>
+export const add = params =>
   $http({
-    url: $http.adornUrl(baseUrl + '/ajax/getHeader'),
-    method: 'get',
-    params: $http.adornParams({})
+    url: $http.adornUrl(baseUrl + '/add'),
+    method: 'post',
+    data: $http.adornData(params)
   })
 
 /**
- * 变更客户
+ * 删除
  */
-export const changeRight = clientId =>
+export const del = params =>
   $http({
-    url: $http.adornUrl(baseUrl + '/ajax/changeClient'),
-    method: 'get',
-    params: $http.adornParams({
-      clientId: clientId
-    })
+    url: $http.adornUrl(baseUrl + '/delete'),
+    method: 'delete',
+    data: $http.adornParams(params)
   })

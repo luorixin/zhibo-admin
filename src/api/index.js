@@ -6,7 +6,7 @@ import qs from 'qs'
 import merge from 'lodash.merge'
 import i18n from '../locale'
 
-const baseUrl = process.env.VUE_APP_URL
+const baseUrl = process.env.VUE_APP_URL + process.env.VUE_APP_URL_PREFIX
 
 Vue.prototype.BASE_URL = baseUrl
 

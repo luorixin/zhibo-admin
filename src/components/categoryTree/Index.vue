@@ -39,11 +39,13 @@
           </div>
         </div>
         <div
-          class="categorytree-child"
+          class="categorytree-child dropable"
+          :data-id="data.id"
           v-show="data.children && data.children.length > 0"
         >
           <div
             class="categorytree-child__con"
+            :class="{ shoulddrag: isEdit }"
             v-for="child in data.children"
             :key="'tree-parent_child_' + child.id"
           >
@@ -59,11 +61,13 @@
               </editor-label>
             </div>
             <div
-              class="categorytree-child__con-right"
+              class="categorytree-child__con-right child_dropable"
+              :data-id="data.id + '$$$' + child.id"
               v-show="child.children && child.children.length > 0"
             >
               <template v-for="childRight in child.children">
                 <editor-label
+                  :class="{ shoulddrag: isEdit }"
                   :id="data.id + '$$$' + child.id + '$$$' + childRight.id"
                   v-model="childRight.name"
                   :show-input="isEdit"
@@ -269,6 +273,7 @@
 import Util from '@/utils'
 import moment from 'moment'
 import EditorLabel from './EditorLabel'
+import Sortable from 'sortablejs'
 export default {
   name: 'CategoryTree',
   components: {
@@ -291,6 +296,24 @@ export default {
   },
   created() {
     this.initData()
+  },
+  watch: {
+    datas: {
+      handler(newVal, oldVal) {
+        if (newVal) {
+          this.initSortable()
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  mounted() {
+    // 阻止默认行为
+    document.body.ondrop = function (event) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
   },
   methods: {
     initData() {
@@ -347,10 +370,48 @@ export default {
         .then(result => {
           this.datas = JSON.parse(JSON.stringify(result))
           this.origin = JSON.parse(JSON.stringify(result))
+          this.$nextTick(() => {
+            this.initSortable()
+          })
         })
         .finally(() => {
           this.loading = false
         })
+    },
+    initSortable() {
+      const allSorts = document.querySelectorAll('.dropable, .child_dropable')
+
+      const _this = this
+
+      if (allSorts && allSorts.length > 0) {
+        allSorts.forEach(child => {
+          Sortable.create(child, {
+            draggable: '.shoulddrag',
+            onEnd({ from, newIndex, oldIndex }) {
+              const idArr = from.dataset.id.split('$$$')
+              let parent = _this.datas.find(item => item.id == idArr[0])
+              let i = 1
+              let changeArr = parent.children
+              let findChild = (par, i) => {
+                par.children.forEach(item => {
+                  if (idArr[i] && item.id == idArr[i]) {
+                    changeArr = item.children
+                    parent = item
+                    if (parent) {
+                      findChild(item, ++i)
+                    }
+                  }
+                })
+              }
+              if (parent) {
+                findChild(parent, i)
+              }
+              const changeEle = changeArr.splice(oldIndex, 1)[0]
+              changeArr.splice(newIndex, 0, changeEle)
+            }
+          })
+        })
+      }
     },
     handleEdit() {
       this.isEdit = !this.isEdit
@@ -364,6 +425,8 @@ export default {
     },
     doSave() {
       this.isEdit = !this.isEdit
+      this.origin = JSON.parse(JSON.stringify(this.datas))
+      console.log(this.origin)
       this.saveModal = false
     },
     handleAdd() {
