@@ -65,7 +65,8 @@ export default {
     noResultDetail: '(There is no result.)',
     customise: 'Customise',
     uploadTip1: '将文件拖到此处，或',
-    uploadTip2: '点击上传'
+    uploadTip2: '点击上传',
+    noPermisson: 'You dont have permisson for this operate!'
   },
   login: {
     error: {

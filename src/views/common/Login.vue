@@ -36,7 +36,6 @@
           <div class="login-btn">
             <el-button
               :loading="loading"
-              :disabled="isDisabled"
               class="sub-btn"
               type="primary"
               @click.native.prevent="submitForm"

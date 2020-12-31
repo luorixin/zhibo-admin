@@ -127,6 +127,14 @@
         <el-form-item :label="$t('material.name')">
           <el-input v-model="editForm.name" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item :label="$t('material.category')">
+          <category-tree-selector
+            style="width: 100%"
+            :defaultValue="editForm.category"
+            @getResult="getCategory"
+          >
+          </category-tree-selector>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editModal = false">{{
@@ -141,12 +149,11 @@
     <!-- upload dialog -->
     <el-dialog
       :title="$t('material.title')"
-      :visible.sync="uploadModal"
+      :visible.sync="isUpload"
       width="900px"
       :center="true"
     >
-      <upload-modal @getResult="doUpload" :visible="uploadModal">
-      </upload-modal>
+      <upload-modal @getResult="doUpload" :visible="isUpload"> </upload-modal>
     </el-dialog>
   </div>
 </template>
@@ -156,10 +163,12 @@ import Util from '@/utils'
 import moment from 'moment'
 import UploadModal from './UploadModal.vue'
 import { convertType, PAGE_SIZES } from '@/utils/constant.js'
+import CategoryTreeSelector from '@/components/selector/CategoryTreeSelector'
 export default {
   name: 'MaterialList',
   components: {
-    UploadModal
+    UploadModal,
+    CategoryTreeSelector
   },
   data() {
     return {
@@ -178,7 +187,6 @@ export default {
       },
       selectId: -1,
       editModal: false,
-      uploadModal: false,
       totalCount: 0,
       pageSizes: PAGE_SIZES
     }
@@ -286,11 +294,12 @@ export default {
     },
     doUpload(res) {
       this.isUpload = false
-      this.uploadModal = false
     },
     handleUpload() {
       this.isUpload = true
-      this.uploadModal = true
+    },
+    getCategory(res) {
+      this.editForm.category = res ? res.id : -1
     }
   }
 }

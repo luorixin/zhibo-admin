@@ -54,39 +54,46 @@ export default {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      // authApi
-      //   .login({ username: username.trim(), password: password })
-      //   .then(response => {
-      //     commit('setToken', response.token)
-      //     commit('setUserDetail', username.trim())
-      //     Util.setToken(response.token)
-      //     resolve()
-      //   })
-      //   .catch(error => {
-      //     reject(error)
-      //   })
-      commit('setToken', '123123')
-      commit('setUserDetail', username.trim())
-      Util.setToken('123123')
-      resolve()
-    })
-  },
-  logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
       authApi
-        .logout()
-        .then(() => {
-          commit('setToken', '')
-          commit('setPermission', null)
-          commit('setAccessRoutes', null)
-          commit('setUserDetail', null)
-          Util.removeToken()
-          resetRouter()
+        .login({ email: username.trim(), password: password })
+        .then(response => {
+          commit('setToken', response.token)
+          commit('setUserDetail', username.trim())
+          Util.setToken(response.token)
           resolve()
         })
         .catch(error => {
           reject(error)
         })
+      // commit('setToken', '123123')
+      // commit('setUserDetail', username.trim())
+      // Util.setToken('123123')
+      // resolve()
+    })
+  },
+  logout({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      // authApi
+      //   .logout()
+      //   .then(() => {
+      //     commit('setToken', '')
+      //     commit('setPermission', null)
+      //     commit('setAccessRoutes', null)
+      //     commit('setUserDetail', null)
+      //     Util.removeToken()
+      //     resetRouter()
+      //     resolve()
+      //   })
+      //   .catch(error => {
+      //     reject(error)
+      //   })
+      commit('setToken', '')
+      commit('setPermission', null)
+      commit('setAccessRoutes', null)
+      commit('setUserDetail', null)
+      Util.removeToken()
+      resetRouter()
+      resolve()
     })
   },
   getInfo({ commit, state }) {

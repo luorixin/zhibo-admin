@@ -118,10 +118,12 @@ export default {
     onInputExit() {
       this.editMode = false
       this.$emit('save', {
-        prev: this.value,
+        prev: this.prev,
         current: this.current,
         id: this.resultId
       })
+      this.value = this.current
+      this.prev = this.current
     },
     onInputCancel() {
       if (this.editMode) {

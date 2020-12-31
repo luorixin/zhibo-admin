@@ -64,7 +64,8 @@ export default {
     noResultDetail: '( 没有结果 )',
     customise: '定制化',
     uploadTip1: '将文件拖到此处，或',
-    uploadTip2: '点击上传'
+    uploadTip2: '点击上传',
+    noPermisson: '您没有权限做此操作！'
   },
   login: {
     error: {
